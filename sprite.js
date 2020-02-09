@@ -63,9 +63,17 @@ projects.
       // Set the fill style
       ctx.fillStyle = this.color;
       
-      // Define a rectangle with a location offset at half it's width and height
-      ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
       
+      if (this.shape === 'circle') {
+        // Draw a circle (arc of 360 degrees) with radius half its width
+        ctx.beginPath();
+        ctx.arc(0, 0, this.width / 2, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      else {
+        // Draw a rectangle with a location offset at half its width and height
+        ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+      }
       // Restore the context to it's original state
       ctx.restore();
       
