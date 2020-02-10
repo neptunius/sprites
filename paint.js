@@ -5,12 +5,12 @@ const ctx = canvas.getContext('2d')
 let frameID = 0 // ID of last requested animation frame
 let frameTime = 0 // Time of last completed animation frame
 let canvasHue = 210 // Start canvas hue cycle at light blue
-const canvasOpacity = 0.006 // >= 0.006 to avoid grey since 1/180 deg = 0.00555
+const canvasOpacity = 0.01 // >= 0.006 to avoid grey since 1/180 deg = 0.00555
 const canvasHueCycleRate = 0.5 // Degrees of hue around color wheel per update
 const spriteHueCycleRate = 2.5 // Degrees of hue around color wheel per update
-const chanceOfHueCycle = 0.2 // Chance that sprite hue will rainbow cycle
-const chanceOfClear = 0.3 // Chance that sprite color will be translucent
-const chanceOfEyes = 0.00 // Chance that rainbow cycle sprite will have eyes
+const chanceOfHueCycle = 0.1 // Chance that sprite hue will rainbow cycle
+const chanceOfClear = 0.1 // Chance that sprite color will be translucent
+const chanceOfEyes = 0.01 // Chance that rainbow cycle sprite will have eyes
 const chanceOfRandomSplit = 0.002 // Chance that sprite randomly splits per update
 const chanceOfRandomDeath = 0.005 // Chance that sprite randomly dies per update
 
@@ -64,7 +64,7 @@ function createSprite() {
   addSpriteMotion(sprite)
   sprite.opacity = opacity
   sprite.hue = hue
-  sprite.hueCycle = randomFloat(0.1, spriteHueCycleRate) // rollDie(chanceOfHueCycle)
+  sprite.hueCycle = rollDie(chanceOfHueCycle) ? randomFloat(0.1, spriteHueCycleRate) : 0
   sprite.eyes = sprite.hueCycle ? rollDie(chanceOfEyes) : false
   sprite.shape = 'circle'
   return sprite
@@ -84,7 +84,7 @@ function resetSprite(sprite) {
   // sprite.y = randomFloat(0, -canvas.height) // Random location above canvas
   sprite.y = -sprite.height // Reset location just above canvas
   sprite.hue = randomFloat(0, 360)
-  sprite.hueCycle = randomFloat(0.1, spriteHueCycleRate) // rollDie(chanceOfHueCycle)
+  sprite.hueCycle = rollDie(chanceOfHueCycle) ? randomFloat(0.1, spriteHueCycleRate) : 0
   sprite.eyes = sprite.hueCycle ? rollDie(chanceOfEyes) : false
   sprite.color = hslaColor(sprite.hue, sprite.opacity)
   addSpriteMotion(sprite)
