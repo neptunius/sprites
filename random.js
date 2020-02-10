@@ -8,6 +8,10 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+function rollDie(chanceOfSuccess) {
+  return Math.random() < chanceOfSuccess
+}
+
 function randomValue(array) {
   return array[randomInt(0, array.length - 1)]
 }

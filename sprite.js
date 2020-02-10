@@ -67,8 +67,30 @@ projects.
       if (this.shape === 'circle') {
         // Draw a circle (arc of 360 degrees) with radius half its width
         ctx.beginPath();
-        ctx.arc(0, 0, this.width / 2, 0, 2 * Math.PI);
+        let radius = this.width / 2. + (this.eyes ? 10 : 0) // Bigger with eyes
+        if (radius <= 0) {
+          console.log('radius:', radius)
+          console.dir(this)
+          radius = 1.0
+        }
+        ctx.arc(0, 0, radius, 0, 2 * Math.PI);
         ctx.fill();
+        if (this.eyes) { // || this.dead) {
+          // Set the fill style to black
+          const eyeHue = (this.hue + 150) % 360
+          const eyeLightness = this.dead ? (1 - this.lifeLeft) * 100 : 60
+          ctx.fillStyle = `hsla(${eyeHue}, 100%, ${eyeLightness}%, 1.0)`
+          const eyeRadius = radius / 6. //(2 * 6) 12.
+          const pupilDist = radius / 3. // Pupillary distance from center
+          const xOffset = radius / 12. * this.dx // Shift eyes left or right
+          const yOffset = radius / 2. * this.dy / maxSpeedY // Top or bottom
+          for (let eye = -1; eye <= 1; eye += 2) {
+            // Draw a circle (arc of 360 degrees) with radius half its width
+            ctx.beginPath();
+            ctx.arc(eye * pupilDist + xOffset, yOffset, eyeRadius, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        }
       }
       else {
         // Draw a rectangle with a location offset at half its width and height
